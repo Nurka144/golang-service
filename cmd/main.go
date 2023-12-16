@@ -31,6 +31,6 @@ func main() {
 		c.JSON(http.StatusOK, gin.H{"status": "success"})
 	})
 
-	srv.Run(":" + os.Getenv("PORT"))
 	logrus.Info("Прослушивание и обслуживание HTTP на : " + os.Getenv("PORT"))
+	srv.Run(":" + os.Getenv("PORT"))
 }
