@@ -1,12 +1,12 @@
 package main
 
 import (
-	"net/http"
 	"os"
 
-	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
 	"github.com/sirupsen/logrus"
+
+	"github.com/Nurka144/golang-service/internal/routes"
 )
 
 func main() {
@@ -25,11 +25,7 @@ func main() {
 		logrus.Info("Ошибка загрузки переменных окружений : ", errLoadEnv)
 	}
 
-	srv := gin.New()
-
-	srv.GET("/", func(c *gin.Context) {
-		c.JSON(http.StatusOK, gin.H{"status": "success"})
-	})
+	srv := routes.InitRoutes()
 
 	logrus.Info("Прослушивание и обслуживание HTTP на : " + os.Getenv("PORT"))
 	srv.Run(":" + os.Getenv("PORT"))
