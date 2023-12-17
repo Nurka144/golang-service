@@ -3,9 +3,10 @@ package main
 import (
 	"os"
 
-	"github.com/joho/godotenv"
 	"github.com/sirupsen/logrus"
+	"github.com/spf13/viper"
 
+	"github.com/Nurka144/golang-service/config"
 	"github.com/Nurka144/golang-service/internal/routes"
 )
 
@@ -19,14 +20,12 @@ func main() {
 
 	logrus.SetOutput(file)
 
-	errLoadEnv := godotenv.Load()
-
-	if errLoadEnv != nil {
-		logrus.Info("Ошибка загрузки переменных окружений : ", errLoadEnv)
+	if err := config.InitConfig(); err != nil {
+		logrus.Info("Ошибка загрузки переменных окружений : ", err.Error())
 	}
 
 	srv := routes.InitRoutes()
 
-	logrus.Info("Прослушивание и обслуживание HTTP на : " + os.Getenv("PORT"))
-	srv.Run(":" + os.Getenv("PORT"))
+	logrus.Info("Прослушивание и обслуживание HTTP на : " + viper.GetString("port"))
+	srv.Run(":" + viper.GetString("port"))
 }
