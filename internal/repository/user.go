@@ -1,23 +1,40 @@
 package repository
 
-import "github.com/Nurka144/golang-service/internal/models"
+import (
+	"database/sql"
+
+	"github.com/Nurka144/golang-service/internal/models"
+)
 
 type User interface {
 	FindOne(id int) (*models.User, error)
 }
 
 type UserRepository struct {
-	User
+	db *sql.DB
 }
 
-func NewUserRepository() User {
-	return &UserRepository{}
+func NewUserRepository(db *sql.DB) User {
+	return &UserRepository{
+		db: db,
+	}
 }
 
-func (r *UserRepository) FindOne(id int) (*models.User, error) {
+func (r *UserRepository) FindOne(userId int) (*models.User, error) {
+	var id int
+	var name string
+	var age int
+	var email string
+
+	err := r.db.QueryRow("select id, name, age, email from bh.user where id = $1", userId).Scan(&id, &name, &age, &email)
+
+	if err != nil {
+		return nil, err
+	}
+
 	return &models.User{
-		ID:       1,
-		Username: "trst",
-		Age:      12,
+		ID:       id,
+		Username: name,
+		Age:      age,
 	}, nil
 }

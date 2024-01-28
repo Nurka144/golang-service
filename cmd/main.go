@@ -7,6 +7,7 @@ import (
 	"github.com/spf13/viper"
 
 	"github.com/Nurka144/golang-service/config"
+	"github.com/Nurka144/golang-service/internal/database"
 	"github.com/Nurka144/golang-service/internal/routes"
 )
 
@@ -24,7 +25,16 @@ func main() {
 		logrus.Info("Ошибка загрузки переменных окружений : ", err.Error())
 	}
 
-	srv := routes.InitRoutes()
+	db, err := database.ConnectDB()
+
+	if err != nil {
+		logrus.Info("Ошибка подключения БД : ", err.Error())
+		panic(err)
+	}
+
+	defer db.Close()
+
+	srv := routes.InitRoutes(db)
 
 	logrus.Info("Прослушивание и обслуживание HTTP на : " + viper.GetString("port"))
 	srv.Run(":" + viper.GetString("port"))
