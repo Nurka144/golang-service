@@ -19,7 +19,9 @@ func InitRoutes(db *sql.DB) *gin.Engine {
 
 	usersApi := router.Group("/user")
 	{
+		usersApi.GET("/", userController.FindMany)
 		usersApi.GET("/:id", userController.FindOne)
+		usersApi.POST("/", userController.Create)
 	}
 
 	return router
