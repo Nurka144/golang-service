@@ -1,4 +1,4 @@
-package routes
+package user
 
 import (
 	"database/sql"
@@ -9,20 +9,17 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func InitRoutes(db *sql.DB) *gin.Engine {
-
-	router := gin.New()
-
+func UserRoutes(db *sql.DB, route *gin.Engine) *gin.Engine {
 	userRepository := repository.NewUserRepository(db)
 	userService := services.NewUserService(userRepository)
 	userController := controllers.NewUserController(userService)
 
-	usersApi := router.Group("/user")
+	usersApi := route.Group("/user")
 	{
 		usersApi.GET("/", userController.FindMany)
 		usersApi.GET("/:id", userController.FindOne)
 		usersApi.POST("/", userController.Create)
 	}
 
-	return router
+	return route
 }
