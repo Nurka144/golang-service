@@ -18,3 +18,11 @@ func NewUserService(r repository.User) *UserService {
 func (s *UserService) FindOne(id int) (*models.User, error) {
 	return s.UserRepository.FindOne(id)
 }
+
+func (s *UserService) Create(user models.UserCreate) (int, error) {
+	return s.UserRepository.Create(user)
+}
+
+func (s *UserService) FindMany() ([]models.User, error) {
+	return s.UserRepository.FindMany()
+}
