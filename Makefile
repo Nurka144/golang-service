@@ -6,6 +6,12 @@ GOGET=$(GOCMD) get
 BINARY_NAME=bookhood
 BINARY_UNIX=$(BINARY_NAME)_unix
 PKG=./cmd/main.go
+DB_HOST=localhost
+DB_PORT=5432
+DB_USER=user
+DB_PASSWORD=Aa123456
+DB_NAME=bookhood
+
 
 build:
 	$(GOBUILD) -o $(BINARY_NAME) $(PKG)
@@ -20,6 +26,10 @@ run:
 	./$(BINARY_NAME)
 deps:
 	$(GOGET) -v ./...
+migrate-up:
+	migrate -path db/migrations/ -database "postgresql://$(DB_USER):$(DB_PASSWORD)@$(DB_HOST):$(DB_PORT)/$(DB_NAME)?sslmode=disable" -verbose up
+migrate-down:
+	migrate -path db/migrations/ -database "postgresql://$(DB_USER):$(DB_PASSWORD)@$(DB_HOST):$(DB_PORT)/$(DB_NAME)?sslmode=disable" -verbose down
 help:
 	@echo "make           - собрать бинарный файл"
 	@echo "make build     - собрать бинарный файл"
