@@ -6,15 +6,11 @@ import (
 	"github.com/Nurka144/golang-service/internal/models"
 )
 
-type Book interface {
-	Create(book models.BookCreate) (int, error)
-}
-
 type BookRepository struct {
 	db *sql.DB
 }
 
-func NewBookRepository(db *sql.DB) Book {
+func NewBookRepository(db *sql.DB) *BookRepository {
 	return &BookRepository{
 		db: db,
 	}
