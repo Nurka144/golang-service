@@ -34,6 +34,9 @@ func ConnectDB() (*sql.DB, error) {
 		return nil, err
 	}
 
+	db.SetMaxOpenConns(10)
+	db.SetConnMaxIdleTime(10)
+
 	logrus.Info("Успешное подключение к PostgreSQL!")
 
 	return db, nil
