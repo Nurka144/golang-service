@@ -1,4 +1,4 @@
-package book
+package routes
 
 import (
 	"database/sql"
@@ -11,7 +11,7 @@ import (
 
 func BookRoutes(db *sql.DB, route *gin.Engine) *gin.Engine {
 	bookRepository := repository.NewBookRepository(db)
-	bookService := services.NewBookService(bookRepository)
+	bookService := services.NewBookService(*bookRepository)
 	bookController := controllers.NewBookController(bookService)
 
 	bookApi := route.Group("/book")
