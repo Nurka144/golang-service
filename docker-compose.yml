@@ -1,0 +1,14 @@
+version: "3.9"
+services:
+
+  back:
+    image: test-staging:1.0.0.0
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: test-staging
+    ports:
+      - '3002:3001'
+    restart: always
+    network_mode: bridge
+

@@ -1,0 +1,15 @@
+port: ":3001"
+
+apiVersion: 'v1.0'
+keycloak: 
+  url: http://test
+  realm: master
+
+database:
+  pg:
+    user: 'pguser'
+    password: 'pguser'
+    host: '127.0.0.1'
+    port: 5434
+    db: 'pgdb'
+
